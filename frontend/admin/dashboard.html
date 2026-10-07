@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>BITE Admin - Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/admin.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar">
+
+    <div class="container nav-inner">
+
+
+        <a
+            href="../index.html"
+            class="logo">
+
+            <span class="logo-mark">
+                B
+            </span>
+
+            BITE
+
+        </a>
+
+
+        <span style="font-weight:800;">
+
+            Admin Panel
+
+        </span>
+
+
+        <button
+            class="btn btn-danger"
+            onclick="logout()">
+
+            Logout
+
+        </button>
+
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================
+     ADMIN LAYOUT
+========================= -->
+
+<div class="admin-layout">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="admin-sidebar">
+
+
+        <h2>
+            BITE 👑
+        </h2>
+
+
+        <div class="admin-nav">
+
+
+            <a
+                class="active"
+                href="dashboard.html">
+
+                📊 Dashboard
+
+            </a>
+
+
+            <a href="orders.html">
+
+                📋 Orders
+
+            </a>
+
+
+            <a href="kitchen.html">
+
+                👨‍🍳 Smart Kitchen
+
+            </a>
+
+
+            <a href="riders.html">
+
+                🛵 Riders
+
+            </a>
+
+
+            <a href="inventory.html">
+
+                📦 Inventory
+
+            </a>
+
+
+            <a href="coupons.html">
+
+                🎟️ Coupons
+
+            </a>
+
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- CONTENT -->
+
+    <main class="admin-content">
+
+
+        <div class="admin-page-title">
+
+            <div>
+
+                <h1>
+                    Dashboard
+                </h1>
+
+
+                <p style="color:#8d8798;">
+
+                    Welcome back to
+                    BITE administration.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- STATS -->
+
+        <div class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <p>
+                    Total Orders
+                </p>
+
+                <h2 id="totalOrders">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <p>
+                    Revenue
+                </p>
+
+                <h2 id="revenue">
+                    ₹0
+                </h2>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <p>
+                    Active Orders
+                </p>
+
+                <h2 id="activeOrders">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <p>
+                    Reviews
+                </p>
+
+                <h2 id="reviewCount">
+                    0
+                </h2>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ACTION CARDS -->
+
+        <div class="admin-card-grid">
+
+
+            <div class="admin-action-card">
+
+                <h3>
+                    📋 Manage Orders
+                </h3>
+
+                <p>
+                    View and update customer orders.
+                </p>
+
+                <a
+                    href="orders.html"
+                    class="btn btn-primary">
+
+                    Open Orders
+
+                </a>
+
+            </div>
+
+
+
+            <div class="admin-action-card">
+
+                <h3>
+                    👨‍🍳 Smart Kitchen
+                </h3>
+
+                <p>
+                    Manage food preparation status.
+                </p>
+
+                <a
+                    href="kitchen.html"
+                    class="btn btn-primary">
+
+                    Open Kitchen
+
+                </a>
+
+            </div>
+
+
+
+            <div class="admin-action-card">
+
+                <h3>
+                    📦 Inventory
+                </h3>
+
+                <p>
+                    Monitor ingredient stock levels.
+                </p>
+
+                <a
+                    href="inventory.html"
+                    class="btn btn-primary">
+
+                    Open Inventory
+
+                </a>
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+</div>
+
+
+
+<!-- =========================
+     APP JS
+========================= -->
+
+<script src="../js/app.js"></script>
+
+
+
+<!-- =========================
+     DASHBOARD DATA
+========================= -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        const orders =
+
+            JSON.parse(
+                localStorage.getItem(
+                    "biteOrders"
+                )
+            ) || [];
+
+
+
+        /*
+           IMPORTANT:
+           Feedback page stores reviews
+           inside quickBiteFeedback.
+        */
+
+        const reviews =
+
+            JSON.parse(
+                localStorage.getItem(
+                    "quickBiteFeedback"
+                )
+            ) || [];
+
+
+
+        const revenue =
+
+            orders.reduce(
+
+                (sum, order) =>
+
+                    sum +
+                    Number(
+                        order.total || 0
+                    ),
+
+                0
+
+            );
+
+
+
+        const active =
+
+            orders.filter(
+
+                order =>
+                    order.status !==
+                    "Delivered"
+
+            ).length;
+
+
+
+        document.getElementById(
+            "totalOrders"
+        ).textContent =
+            orders.length;
+
+
+
+        document.getElementById(
+            "revenue"
+        ).textContent =
+            "₹" + revenue;
+
+
+
+        document.getElementById(
+            "activeOrders"
+        ).textContent =
+            active;
+
+
+
+        document.getElementById(
+            "reviewCount"
+        ).textContent =
+            reviews.length;
+
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

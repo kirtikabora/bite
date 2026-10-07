@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BITE - Checkout</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="container nav-inner">
+
+        <a href="index.html" class="logo">
+            <span class="logo-mark">B</span>
+            BITE
+        </a>
+
+        <a href="cart.html" class="btn btn-secondary">
+            ← Back to Cart
+        </a>
+
+    </div>
+</nav>
+
+<main class="page">
+
+<div class="container">
+
+    <h1 class="page-title">Checkout 💳</h1>
+    <p class="page-subtitle">
+        Almost there! Complete your order.
+    </p>
+
+    <div class="cart-layout">
+
+        <div class="form-card">
+
+            <h2>Delivery Details</h2>
+
+            <br>
+
+            <div class="form-group">
+                <label>Full Name</label>
+                <input id="name" placeholder="Your name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input id="phone" placeholder="10-digit phone number" required>
+            </div>
+
+            <div class="form-group">
+                <label>Delivery Address</label>
+                <textarea
+                    id="address"
+                    placeholder="House number, street, area..."
+                    required></textarea>
+            </div>
+
+            <h2 style="margin:25px 0 15px;">
+                Payment Method
+            </h2>
+
+            <div class="category-list">
+
+                <button
+                    class="category-btn active"
+                    onclick="selectPayment(this,'UPI')">
+                    📱 UPI
+                </button>
+
+                <button
+                    class="category-btn"
+                    onclick="selectPayment(this,'Card')">
+                    💳 Card
+                </button>
+
+                <button
+                    class="category-btn"
+                    onclick="selectPayment(this,'COD')">
+                    💵 Cash on Delivery
+                </button>
+
+            </div>
+
+            <button
+                class="btn btn-primary"
+                style="width:100%;margin-top:15px;"
+                onclick="placeOrder()">
+                Place Order
+            </button>
+
+        </div>
+
+        <div class="summary-card">
+
+            <h2>Order Summary</h2>
+
+            <div id="checkoutItems"></div>
+
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <strong>₹<span id="checkoutSubtotal">0</span></strong>
+            </div>
+
+            <div class="summary-row">
+                <span>Delivery</span>
+                <strong>₹<span id="checkoutDelivery">0</span></strong>
+            </div>
+
+            <div class="summary-row">
+                <span>Discount</span>
+                <strong>− ₹<span id="checkoutDiscount">0</span></strong>
+            </div>
+
+            <div class="summary-row summary-total">
+                <span>Total</span>
+                <span>₹<span id="checkoutTotal">0</span></span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</main>
+
+<script src="js/app.js"></script>
+<script src="js/checkout.js"></script>
+
+</body>
+</html>

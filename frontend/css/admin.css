@@ -1,0 +1,40 @@
+@import url("style.css");
+
+.admin-page-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.admin-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.admin-action-card {
+    background: white;
+    padding: 22px;
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    box-shadow: var(--shadow);
+}
+
+.admin-action-card h3 {
+    margin-bottom: 8px;
+}
+
+.admin-action-card p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+@media (max-width: 800px) {
+    .admin-card-grid {
+        grid-template-columns: 1fr;
+    }
+}

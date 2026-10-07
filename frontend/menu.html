@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BITE - Menu</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/menu.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="container nav-inner">
+
+        <a href="index.html" class="logo">
+            <span class="logo-mark">B</span>
+            BITE
+        </a>
+
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="menu.html">Menu</a>
+            <a href="orders.html">Orders</a>
+        </div>
+
+        <div class="nav-actions">
+            <a href="cart.html" class="btn btn-secondary">
+                🛒 Cart
+                <span class="cart-count">0</span>
+            </a>
+        </div>
+
+    </div>
+
+</nav>
+
+
+<main class="page">
+
+    <div class="container">
+
+        <h1 class="page-title">
+            Explore Our Menu 🍔
+        </h1>
+
+        <p class="page-subtitle">
+            Choose your favourite food and make it your own.
+        </p>
+
+
+        <!-- SEARCH -->
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search burgers, pizza, pasta..."
+            >
+
+            <button
+                class="btn btn-primary"
+                onclick="searchFood()">
+
+                Search
+
+            </button>
+
+        </div>
+
+
+        <!-- CATEGORIES -->
+
+        <div
+            class="category-list"
+            id="categories">
+        </div>
+
+
+        <!-- AI FOOD RECOMMENDER -->
+
+        <section class="ai-recommender">
+
+            <div class="ai-header">
+
+                <div class="ai-icon">
+                    🤖
+                </div>
+
+                <div>
+                    <h2>
+                        BITE AI Food Finder
+                    </h2>
+
+                    <p>
+                        Tell us what you're craving and we'll find your best match.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="ai-options">
+
+                <div class="ai-group">
+
+                    <label>
+                        What are you in the mood for?
+                    </label>
+
+                    <select id="aiMood">
+
+                        <option value="any">
+                            Anything
+                        </option>
+
+                        <option value="spicy">
+                            🌶️ Spicy
+                        </option>
+
+                        <option value="cheesy">
+                            🧀 Cheesy
+                        </option>
+
+                        <option value="sweet">
+                            🍰 Sweet
+                        </option>
+
+                        <option value="healthy">
+                            🥗 Light & Healthy
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="ai-group">
+
+                    <label>
+                        Food type
+                    </label>
+
+                    <select id="aiType">
+
+                        <option value="any">
+                            Any
+                        </option>
+
+                        <option value="Burgers">
+                            🍔 Burger
+                        </option>
+
+                        <option value="Pizzas">
+                            🍕 Pizza
+                        </option>
+
+                        <option value="Indian">
+                            🍛 Indian
+                        </option>
+
+                        <option value="Pasta">
+                            🍝 Pasta
+                        </option>
+
+                        <option value="Starters">
+                            🥗 Starter
+                        </option>
+
+                        <option value="Desserts">
+                            🍰 Dessert
+                        </option>
+
+                        <option value="Drinks">
+                            🥤 Drink
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="ai-group">
+
+                    <label>
+                        Maximum budget
+                    </label>
+
+                    <select id="aiBudget">
+
+                        <option value="any">
+                            Any budget
+                        </option>
+
+                        <option value="150">
+                            ₹150
+                        </option>
+
+                        <option value="200">
+                            ₹200
+                        </option>
+
+                        <option value="250">
+                            ₹250
+                        </option>
+
+                        <option value="300">
+                            ₹300
+                        </option>
+
+                        <option value="500">
+                            ₹500
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="ai-button"
+                onclick="findAIRecommendation()">
+
+                🤖 Find My Food
+
+            </button>
+
+
+            <div
+                id="aiResult"
+                class="ai-result">
+
+                <div class="ai-empty">
+                    Answer the questions above and let BITE choose for you 😋
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- EXISTING RECOMMENDATION -->
+
+        <section id="recommend">
+
+            <div class="recommend-box">
+
+                <h2>
+                    What are you craving? 😋
+                </h2>
+
+                <p
+                    class="page-subtitle"
+                    style="margin-top:7px;">
+
+                    Pick a mood and BITE will suggest something.
+
+                </p>
+
+
+                <div class="craving-buttons">
+
+                    <button
+                        class="btn btn-secondary"
+                        onclick="recommendFood('spicy')">
+
+                        🌶️ Spicy
+
+                    </button>
+
+
+                    <button
+                        class="btn btn-secondary"
+                        onclick="recommendFood('cheesy')">
+
+                        🧀 Cheesy
+
+                    </button>
+
+
+                    <button
+                        class="btn btn-secondary"
+                        onclick="recommendFood('sweet')">
+
+                        🍰 Sweet
+
+                    </button>
+
+
+                    <button
+                        class="btn btn-secondary"
+                        onclick="recommendFood('healthy')">
+
+                        🥗 Light
+
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="recommendationResult"
+                    style="margin-top:20px;">
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOD -->
+
+        <div
+            class="section-heading"
+            style="margin-top:40px;">
+
+            <h2>
+                All Food
+            </h2>
+
+            <span
+                id="foodCount"
+                style="color:#8d8798;">
+            </span>
+
+        </div>
+
+
+        <div
+            class="food-grid"
+            id="foodGrid">
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- CUSTOMIZATION MODAL -->
+
+<div
+    class="modal"
+    id="customModal">
+
+    <div class="modal-card">
+
+        <div class="modal-header">
+
+            <h2>
+                Customize Meal 🍔
+            </h2>
+
+            <button
+                class="close-btn"
+                onclick="closeCustomization()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <div id="customFood"></div>
+
+
+        <div class="form-group">
+
+            <label>
+                Size
+            </label>
+
+            <select
+                id="sizeOption"
+                onchange="updateCustomPrice()">
+
+                <option value="0">
+                    Regular
+                </option>
+
+                <option value="40">
+                    Large +₹40
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Spice Level
+            </label>
+
+            <select id="spiceOption">
+
+                <option>
+                    Mild
+                </option>
+
+                <option>
+                    Medium
+                </option>
+
+                <option>
+                    Spicy
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Extra Cheese
+            </label>
+
+            <select
+                id="cheeseOption"
+                onchange="updateCustomPrice()">
+
+                <option value="0">
+                    No extra cheese
+                </option>
+
+                <option value="30">
+                    Extra cheese +₹30
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Extras
+            </label>
+
+            <select
+                id="extraOption"
+                onchange="updateCustomPrice()">
+
+                <option value="0">
+                    No extras
+                </option>
+
+                <option value="25">
+                    Extra toppings +₹25
+                </option>
+
+                <option value="45">
+                    Premium toppings +₹45
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <h3 style="margin:20px 0;">
+
+            Total:
+            ₹<span id="customTotal">0</span>
+
+        </h3>
+
+
+        <button
+            class="btn btn-primary"
+            style="width:100%;"
+            onclick="addCustomizedItem()">
+
+            Add Customized Meal
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- SCRIPTS -->
+
+<script src="js/app.js"></script>
+<script src="js/menu.js"></script>
+
+
+<!-- AI RECOMMENDER ONLY -->
+
+<script>
+
+function findAIRecommendation() {
+
+    var mood =
+        document.getElementById("aiMood").value;
+
+    var type =
+        document.getElementById("aiType").value;
+
+    var budgetValue =
+        document.getElementById("aiBudget").value;
+
+
+    var budget =
+        budgetValue === "any"
+            ? Infinity
+            : Number(budgetValue);
+
+
+    if (
+        typeof foods === "undefined" ||
+        !Array.isArray(foods)
+    ) {
+
+        document.getElementById("aiResult").innerHTML =
+            "<div class='ai-empty'>Food data could not be loaded. Please refresh the page.</div>";
+
+        return;
+    }
+
+
+    var matches = foods.filter(function(food) {
+
+        var moodMatch =
+            mood === "any" ||
+            (
+                Array.isArray(food.tags) &&
+                food.tags.includes(mood)
+            );
+
+
+        var typeMatch =
+            type === "any" ||
+            food.category === type;
+
+
+        var budgetMatch =
+            Number(food.price) <= budget;
+
+
+        return (
+            moodMatch &&
+            typeMatch &&
+            budgetMatch
+        );
+
+    });
+
+
+    if (matches.length === 0) {
+
+        document.getElementById("aiResult").innerHTML =
+
+            "<div class='ai-empty'>" +
+            "😕 No exact match found.<br>" +
+            "<span>Try increasing your budget or choosing another food type.</span>" +
+            "</div>";
+
+        return;
+    }
+
+
+    matches.sort(function(a, b) {
+
+        return Number(b.rating) - Number(a.rating);
+
+    });
+
+
+    var food = matches[0];
+
+
+    var reason = "This looks like a great match for you!";
+
+
+    if (mood !== "any" && type !== "any") {
+
+        reason =
+            "You wanted " +
+            mood +
+            " food and a " +
+            type.toLowerCase() +
+            " — this is our best match.";
+
+    } else if (mood !== "any") {
+
+        reason =
+            "You wanted something " +
+            mood +
+            ", so BITE picked this for you.";
+
+    } else if (type !== "any") {
+
+        reason =
+            "You were looking for " +
+            type.toLowerCase() +
+            ", and this is our top-rated match.";
+
+    } else if (budget !== Infinity) {
+
+        reason =
+            "We found a highly rated option within your budget.";
+
+    }
+
+
+    document.getElementById("aiResult").innerHTML =
+
+        "<div class='ai-card'>" +
+
+            "<div class='ai-food-image'>" +
+
+                "<img " +
+                    "src='" + food.image + "' " +
+                    "alt='" + food.name + "'" +
+                ">" +
+
+            "</div>" +
+
+            "<div class='ai-food-info'>" +
+
+                "<span class='ai-match'>✨ BITE'S PICK</span>" +
+
+                "<h3>" +
+                    food.name +
+                "</h3>" +
+
+                "<p>" +
+                    food.description +
+                "</p>" +
+
+                "<div class='ai-food-meta'>" +
+
+                    "<span>⭐ " +
+                        food.rating +
+                    "</span>" +
+
+                    "<strong>₹" +
+                        food.price +
+                    "</strong>" +
+
+                "</div>" +
+
+                "<p class='ai-reason'>" +
+                    reason +
+                "</p>" +
+
+                "<button " +
+                    "class='btn btn-primary' " +
+                    "onclick='quickAdd(" + food.id + ")'" +
+                ">" +
+
+                    "🛒 Add to Cart" +
+
+                "</button>" +
+
+            "</div>" +
+
+        "</div>";
+
+}
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BITE Admin - Coupons</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="container nav-inner">
+
+        <a href="../index.html" class="logo">
+            <span class="logo-mark">B</span>
+            BITE
+        </a>
+
+        <a href="dashboard.html" class="btn btn-secondary">
+            Dashboard
+        </a>
+
+    </div>
+</nav>
+
+<div class="admin-layout">
+
+<aside class="admin-sidebar">
+
+    <h2>BITE 👑</h2>
+
+    <div class="admin-nav">
+        <a href="dashboard.html">📊 Dashboard</a>
+        <a href="orders.html">📋 Orders</a>
+        <a href="kitchen.html">👨‍🍳 Smart Kitchen</a>
+        <a href="riders.html">🛵 Riders</a>
+        <a href="inventory.html">📦 Inventory</a>
+        <a class="active" href="coupons.html">🎟️ Coupons</a>
+    </div>
+
+</aside>
+
+<main class="admin-content">
+
+    <div class="admin-page-title">
+
+        <div>
+            <h1>Coupon Management 🎟️</h1>
+            <p style="color:#8d8798;">
+                Create and manage BITE offers.
+            </p>
+        </div>
+
+        <button
+            class="btn btn-primary"
+            onclick="addCoupon()">
+            + Add Coupon
+        </button>
+
+    </div>
+
+    <div class="admin-table-wrap">
+
+        <table class="admin-table">
+
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Discount</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="couponTable"></tbody>
+
+        </table>
+
+    </div>
+
+</main>
+
+</div>
+
+<script src="../js/app.js"></script>
+
+<script>
+let coupons =
+    JSON.parse(localStorage.getItem("biteCoupons")) || [
+
+        {
+            code: "BITE20",
+            discount: "20%",
+            active: true
+        },
+
+        {
+            code: "WELCOME50",
+            discount: "₹50",
+            active: true
+        }
+
+    ];
+
+function renderCoupons() {
+
+    document.getElementById("couponTable").innerHTML =
+        coupons.map((coupon, index) => `
+
+            <tr>
+
+                <td>
+                    <strong>${coupon.code}</strong>
+                </td>
+
+                <td>${coupon.discount}</td>
+
+                <td>
+                    <span class="status ${
+                        coupon.active
+                        ? "success"
+                        : "danger"
+                    }">
+                        ${
+                            coupon.active
+                            ? "Active"
+                            : "Inactive"
+                        }
+                    </span>
+                </td>
+
+                <td>
+
+                    <button
+                        class="btn btn-secondary btn-small"
+                        onclick="toggleCoupon(${index})">
+                        Toggle
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `).join("");
+}
+
+function toggleCoupon(index) {
+
+    coupons[index].active =
+        !coupons[index].active;
+
+    localStorage.setItem(
+        "biteCoupons",
+        JSON.stringify(coupons)
+    );
+
+    renderCoupons();
+}
+
+function addCoupon() {
+
+    const code =
+        prompt("Coupon code:");
+
+    if (!code) return;
+
+    const discount =
+        prompt("Discount e.g. 20% or ₹100:");
+
+    if (!discount) return;
+
+    coupons.push({
+        code: code.toUpperCase(),
+        discount,
+        active: true
+    });
+
+    localStorage.setItem(
+        "biteCoupons",
+        JSON.stringify(coupons)
+    );
+
+    renderCoupons();
+}
+
+document.addEventListener("DOMContentLoaded", renderCoupons);
+</script>
+
+</body>
+</html>

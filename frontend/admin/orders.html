@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BITE Admin - Orders</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="container nav-inner">
+
+        <a href="../index.html" class="logo">
+            <span class="logo-mark">B</span>
+            BITE
+        </a>
+
+        <a href="dashboard.html" class="btn btn-secondary">
+            Dashboard
+        </a>
+
+    </div>
+</nav>
+
+<div class="admin-layout">
+
+<aside class="admin-sidebar">
+
+    <h2>BITE 👑</h2>
+
+    <div class="admin-nav">
+        <a href="dashboard.html">📊 Dashboard</a>
+        <a class="active" href="orders.html">📋 Orders</a>
+        <a href="kitchen.html">👨‍🍳 Smart Kitchen</a>
+        <a href="riders.html">🛵 Riders</a>
+        <a href="inventory.html">📦 Inventory</a>
+        <a href="coupons.html">🎟️ Coupons</a>
+    </div>
+
+</aside>
+
+<main class="admin-content">
+
+    <div class="admin-page-title">
+        <div>
+            <h1>Order Management</h1>
+            <p style="color:#8d8798;">
+                Manage customer orders.
+            </p>
+        </div>
+    </div>
+
+    <div class="admin-table-wrap">
+
+        <table class="admin-table">
+
+            <thead>
+                <tr>
+                    <th>Order</th>
+                    <th>Customer</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="ordersTable"></tbody>
+
+        </table>
+
+    </div>
+
+</main>
+
+</div>
+
+<script src="../js/app.js"></script>
+<script src="../js/admin.js"></script>
+
+<script>
+function renderOrders() {
+
+    const orders =
+        JSON.parse(localStorage.getItem("biteOrders")) || [];
+
+    const table =
+        document.getElementById("ordersTable");
+
+    if (!orders.length) {
+        table.innerHTML = `
+            <tr>
+                <td colspan="5">
+                    No orders yet.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    table.innerHTML = orders.map((order, index) => `
+
+        <tr>
+
+            <td>
+                <strong>#${order.id}</strong>
+            </td>
+
+            <td>${order.name}</td>
+
+            <td>₹${order.total}</td>
+
+            <td>
+                <span class="status success">
+                    ${order.status}
+                </span>
+            </td>
+
+            <td>
+
+                <button
+                    class="btn btn-primary btn-small"
+                    onclick="advanceOrder(${index})">
+                    Update
+                </button>
+
+            </td>
+
+        </tr>
+
+    `).join("");
+}
+
+function advanceOrder(index) {
+
+    const statuses = [
+        "Confirmed",
+        "Preparing",
+        "Ready",
+        "Picked Up",
+        "Delivered"
+    ];
+
+    const orders =
+        JSON.parse(localStorage.getItem("biteOrders")) || [];
+
+    const current =
+        statuses.indexOf(orders[index].status);
+
+    if (current < statuses.length - 1) {
+        orders[index].status =
+            statuses[current + 1];
+    }
+
+    localStorage.setItem(
+        "biteOrders",
+        JSON.stringify(orders)
+    );
+
+    renderOrders();
+}
+
+document.addEventListener("DOMContentLoaded", renderOrders);
+</script>
+
+</body>
+</html>

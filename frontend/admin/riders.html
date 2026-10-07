@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BITE Admin - Riders</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="container nav-inner">
+
+        <a href="../index.html" class="logo">
+            <span class="logo-mark">B</span>
+            BITE
+        </a>
+
+        <a href="dashboard.html" class="btn btn-secondary">
+            Dashboard
+        </a>
+
+    </div>
+</nav>
+
+<div class="admin-layout">
+
+<aside class="admin-sidebar">
+
+    <h2>BITE 👑</h2>
+
+    <div class="admin-nav">
+        <a href="dashboard.html">📊 Dashboard</a>
+        <a href="orders.html">📋 Orders</a>
+        <a href="kitchen.html">👨‍🍳 Smart Kitchen</a>
+        <a class="active" href="riders.html">🛵 Riders</a>
+        <a href="inventory.html">📦 Inventory</a>
+        <a href="coupons.html">🎟️ Coupons</a>
+    </div>
+
+</aside>
+
+<main class="admin-content">
+
+    <div class="admin-page-title">
+
+        <div>
+            <h1>Rider Management 🛵</h1>
+            <p style="color:#8d8798;">
+                Manage BITE delivery riders.
+            </p>
+        </div>
+
+        <button
+            class="btn btn-primary"
+            onclick="addRider()">
+            + Add Rider
+        </button>
+
+    </div>
+
+    <div class="admin-table-wrap">
+
+        <table class="admin-table">
+
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th>Orders</th>
+                </tr>
+            </thead>
+
+            <tbody id="riderTable"></tbody>
+
+        </table>
+
+    </div>
+
+</main>
+
+</div>
+
+<script src="../js/app.js"></script>
+
+<script>
+let riders =
+    JSON.parse(localStorage.getItem("biteRiders")) || [
+        {
+            name: "Rahul",
+            phone: "9876543210",
+            status: "Online",
+            orders: 12
+        },
+        {
+            name: "Arjun",
+            phone: "9876501234",
+            status: "Offline",
+            orders: 8
+        }
+    ];
+
+function renderRiders() {
+
+    document.getElementById("riderTable").innerHTML =
+        riders.map(rider => `
+
+            <tr>
+
+                <td>
+                    <strong>${rider.name}</strong>
+                </td>
+
+                <td>${rider.phone}</td>
+
+                <td>
+                    <span class="status ${
+                        rider.status === "Online"
+                        ? "success"
+                        : "danger"
+                    }">
+                        ${rider.status}
+                    </span>
+                </td>
+
+                <td>${rider.orders}</td>
+
+            </tr>
+
+        `).join("");
+}
+
+function addRider() {
+
+    const name =
+        prompt("Enter rider name:");
+
+    if (!name) return;
+
+    const phone =
+        prompt("Enter rider phone:");
+
+    if (!phone) return;
+
+    riders.push({
+        name,
+        phone,
+        status: "Online",
+        orders: 0
+    });
+
+    localStorage.setItem(
+        "biteRiders",
+        JSON.stringify(riders)
+    );
+
+    renderRiders();
+}
+
+document.addEventListener("DOMContentLoaded", renderRiders);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BITE Admin - Inventory</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="container nav-inner">
+
+        <a href="../index.html" class="logo">
+            <span class="logo-mark">B</span>
+            BITE
+        </a>
+
+        <a href="dashboard.html" class="btn btn-secondary">
+            Dashboard
+        </a>
+
+    </div>
+</nav>
+
+<div class="admin-layout">
+
+<aside class="admin-sidebar">
+
+    <h2>BITE 👑</h2>
+
+    <div class="admin-nav">
+        <a href="dashboard.html">📊 Dashboard</a>
+        <a href="orders.html">📋 Orders</a>
+        <a href="kitchen.html">👨‍🍳 Smart Kitchen</a>
+        <a href="riders.html">🛵 Riders</a>
+        <a class="active" href="inventory.html">📦 Inventory</a>
+        <a href="coupons.html">🎟️ Coupons</a>
+    </div>
+
+</aside>
+
+<main class="admin-content">
+
+    <div class="admin-page-title">
+
+        <div>
+            <h1>Inventory Management 📦</h1>
+            <p style="color:#8d8798;">
+                Monitor ingredients and stock.
+            </p>
+        </div>
+
+        <button
+            class="btn btn-primary"
+            onclick="addIngredient()">
+            + Add Ingredient
+        </button>
+
+    </div>
+
+    <div class="admin-table-wrap">
+
+        <table class="admin-table">
+
+            <thead>
+                <tr>
+                    <th>Ingredient</th>
+                    <th>Stock</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="inventoryTable"></tbody>
+
+        </table>
+
+    </div>
+
+</main>
+
+</div>
+
+<script src="../js/app.js"></script>
+
+<script>
+let inventory =
+    JSON.parse(localStorage.getItem("biteInventory")) || [
+
+        {
+            name: "Burger Buns",
+            stock: 50
+        },
+
+        {
+            name: "Mozzarella Cheese",
+            stock: 18
+        },
+
+        {
+            name: "Chicken",
+            stock: 32
+        },
+
+        {
+            name: "Tomatoes",
+            stock: 9
+        },
+
+        {
+            name: "Pasta",
+            stock: 40
+        }
+
+    ];
+
+function renderInventory() {
+
+    document.getElementById("inventoryTable").innerHTML =
+        inventory.map((item, index) => {
+
+            let status =
+                item.stock <= 10
+                    ? "Low Stock"
+                    : "Available";
+
+            return `
+
+                <tr>
+
+                    <td>
+                        <strong>${item.name}</strong>
+                    </td>
+
+                    <td>${item.stock}</td>
+
+                    <td>
+
+                        <span class="status ${
+                            item.stock <= 10
+                            ? "warning"
+                            : "success"
+                        }">
+                            ${status}
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="btn btn-primary btn-small"
+                            onclick="updateStock(${index})">
+                            Update
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }).join("");
+}
+
+function updateStock(index) {
+
+    const amount =
+        Number(prompt("Enter new stock quantity:"));
+
+    if (Number.isNaN(amount)) return;
+
+    inventory[index].stock = amount;
+
+    localStorage.setItem(
+        "biteInventory",
+        JSON.stringify(inventory)
+    );
+
+    renderInventory();
+}
+
+function addIngredient() {
+
+    const name =
+        prompt("Ingredient name:");
+
+    if (!name) return;
+
+    const stock =
+        Number(prompt("Initial stock:"));
+
+    if (Number.isNaN(stock)) return;
+
+    inventory.push({
+        name,
+        stock
+    });
+
+    localStorage.setItem(
+        "biteInventory",
+        JSON.stringify(inventory)
+    );
+
+    renderInventory();
+}
+
+document.addEventListener("DOMContentLoaded", renderInventory);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>BITE - Feedback</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #fffaf5;
+        color: #302535;
+    }
+
+    .navbar {
+        background: white;
+        padding: 18px 30px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .navbar a {
+        text-decoration: none;
+        color: #7654e8;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .container {
+        max-width: 550px;
+        margin: 50px auto;
+        padding: 20px;
+    }
+
+    .card {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+        text-align: center;
+        color: #7654e8;
+        margin-bottom: 10px;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #777;
+        margin-bottom: 25px;
+    }
+
+    .stars {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .star {
+        border: none;
+        background: none;
+        font-size: 38px;
+        color: #ddd;
+        cursor: pointer;
+    }
+
+    .star.active {
+        color: #ffb400;
+    }
+
+    textarea {
+        width: 100%;
+        height: 130px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        resize: none;
+        font-size: 15px;
+    }
+
+    .submit {
+        width: 100%;
+        margin-top: 15px;
+        padding: 14px;
+        border: none;
+        border-radius: 12px;
+        background: #7654e8;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .submit:hover {
+        background: #5b3bc4;
+    }
+
+    .message {
+        text-align: center;
+        margin-top: 15px;
+        color: #5b3bc4;
+        font-weight: bold;
+    }
+
+    .reviews {
+        margin-top: 30px;
+    }
+
+    .review {
+        background: #faf7fc;
+        padding: 15px;
+        border-radius: 12px;
+        margin-top: 10px;
+    }
+
+    .review-stars {
+        color: #ffb400;
+        margin-bottom: 6px;
+    }
+
+    .review-text {
+        color: #555;
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<nav class="navbar">
+    <a href="index.html">🍔 BITE</a>
+</nav>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>💜 Feedback</h1>
+
+        <p class="subtitle">
+            Tell us about your BITE experience.
+        </p>
+
+        <div class="stars">
+
+            <button class="star" onclick="rate(1)">★</button>
+            <button class="star" onclick="rate(2)">★</button>
+            <button class="star" onclick="rate(3)">★</button>
+            <button class="star" onclick="rate(4)">★</button>
+            <button class="star" onclick="rate(5)">★</button>
+
+        </div>
+
+        <textarea
+            id="feedback"
+            placeholder="Write your feedback here..."
+        ></textarea>
+
+        <button class="submit" onclick="submitFeedback()">
+            Submit Feedback
+        </button>
+
+        <div id="message" class="message"></div>
+
+        <div class="reviews">
+
+            <h3>💬 Previous Feedback</h3>
+
+            <div id="reviewList"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    var selectedRating = 0;
+
+
+    function rate(number) {
+
+        selectedRating = number;
+
+        var stars =
+            document.querySelectorAll(".star");
+
+        for (var i = 0; i < stars.length; i++) {
+
+            if (i < number) {
+                stars[i].classList.add("active");
+            } else {
+                stars[i].classList.remove("active");
+            }
+
+        }
+    }
+
+
+    function submitFeedback() {
+
+        var text =
+            document.getElementById("feedback")
+            .value
+            .trim();
+
+        if (selectedRating === 0) {
+
+            alert("Please select a rating ⭐");
+
+            return;
+        }
+
+        if (text === "") {
+
+            alert("Please write your feedback 😊");
+
+            return;
+        }
+
+
+        var feedback =
+            JSON.parse(
+                localStorage.getItem("quickBiteFeedback")
+            ) || [];
+
+
+        feedback.unshift({
+
+            rating: selectedRating,
+
+            text: text,
+
+            date: new Date().toLocaleDateString()
+
+        });
+
+
+        localStorage.setItem(
+            "quickBiteFeedback",
+            JSON.stringify(feedback)
+        );
+
+
+        document.getElementById(
+            "feedback"
+        ).value = "";
+
+        selectedRating = 0;
+
+
+        document
+            .querySelectorAll(".star")
+            .forEach(function(star) {
+                star.classList.remove("active");
+            });
+
+
+        document.getElementById(
+            "message"
+        ).textContent =
+            "❤️ Thank you for your feedback!";
+
+
+        showReviews();
+    }
+
+
+    function showReviews() {
+
+        var list =
+            document.getElementById("reviewList");
+
+        var feedback =
+            JSON.parse(
+                localStorage.getItem("quickBiteFeedback")
+            ) || [];
+
+
+        list.innerHTML = "";
+
+
+        if (feedback.length === 0) {
+
+            list.innerHTML =
+                "<p style='margin-top:10px;color:#777;'>No feedback yet.</p>";
+
+            return;
+        }
+
+
+        for (
+            var i = 0;
+            i < Math.min(feedback.length, 5);
+            i++
+        ) {
+
+            var item = feedback[i];
+
+            var stars =
+                "★".repeat(item.rating) +
+                "☆".repeat(5 - item.rating);
+
+
+            list.innerHTML +=
+
+                '<div class="review">' +
+
+                '<div class="review-stars">' +
+                stars +
+                '</div>' +
+
+                '<div class="review-text">' +
+                item.text +
+                '</div>' +
+
+                '</div>';
+        }
+    }
+
+
+    showReviews();
+
+</script>
+```
+
+</body>
+</html>

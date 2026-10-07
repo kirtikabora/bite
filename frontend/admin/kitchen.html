@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BITE Admin - Kitchen</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="container nav-inner">
+
+        <a href="../index.html" class="logo">
+            <span class="logo-mark">B</span>
+            BITE
+        </a>
+
+        <a href="dashboard.html" class="btn btn-secondary">
+            Dashboard
+        </a>
+
+    </div>
+</nav>
+
+<div class="admin-layout">
+
+<aside class="admin-sidebar">
+
+    <h2>BITE 👑</h2>
+
+    <div class="admin-nav">
+        <a href="dashboard.html">📊 Dashboard</a>
+        <a href="orders.html">📋 Orders</a>
+        <a class="active" href="kitchen.html">👨‍🍳 Smart Kitchen</a>
+        <a href="riders.html">🛵 Riders</a>
+        <a href="inventory.html">📦 Inventory</a>
+        <a href="coupons.html">🎟️ Coupons</a>
+    </div>
+
+</aside>
+
+<main class="admin-content">
+
+    <div class="admin-page-title">
+        <div>
+            <h1>Smart Kitchen 👨‍🍳</h1>
+            <p style="color:#8d8798;">
+                Manage food preparation.
+            </p>
+        </div>
+    </div>
+
+    <div id="kitchenOrders" class="admin-card-grid"></div>
+
+</main>
+
+</div>
+
+<script src="../js/app.js"></script>
+
+<script>
+function renderKitchen() {
+
+    const orders =
+        JSON.parse(localStorage.getItem("biteOrders")) || [];
+
+    const container =
+        document.getElementById("kitchenOrders");
+
+    const activeOrders =
+        orders.filter(order =>
+            order.status !== "Delivered"
+        );
+
+    if (!activeOrders.length) {
+        container.innerHTML = `
+            <div class="admin-action-card">
+                <h3>Kitchen is clear 🎉</h3>
+                <p>No active orders right now.</p>
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML =
+        activeOrders.map(order => `
+
+            <div class="admin-action-card">
+
+                <h3>#${order.id}</h3>
+
+                <p>
+                    Customer: ${order.name}
+                </p>
+
+                <p>
+                    ${order.items.map(item =>
+                        `${item.name} × ${item.quantity}`
+                    ).join("<br>")}
+                </p>
+
+                <strong>
+                    Status: ${order.status}
+                </strong>
+
+                <br><br>
+
+                <button
+                    class="btn btn-primary"
+                    onclick="makeReady('${order.id}')">
+                    Mark Ready
+                </button>
+
+            </div>
+
+        `).join("");
+}
+
+function makeReady(id) {
+
+    const orders =
+        JSON.parse(localStorage.getItem("biteOrders")) || [];
+
+    const order =
+        orders.find(item => item.id === id);
+
+    if (order) {
+        order.status = "Ready";
+    }
+
+    localStorage.setItem(
+        "biteOrders",
+        JSON.stringify(orders)
+    );
+
+    renderKitchen();
+}
+
+document.addEventListener("DOMContentLoaded", renderKitchen);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BITE - Cart</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="container nav-inner">
+
+        <a href="index.html" class="logo">
+            <span class="logo-mark">B</span>
+            BITE
+        </a>
+
+        <div class="nav-links">
+            <a href="menu.html">Menu</a>
+            <a href="orders.html">Orders</a>
+        </div>
+
+        <a href="menu.html" class="btn btn-secondary">
+            ← Continue Shopping
+        </a>
+
+    </div>
+</nav>
+
+<main class="page">
+
+<div class="container">
+
+    <h1 class="page-title">Your Cart 🛒</h1>
+    <p class="page-subtitle">
+        Check your items before placing the order.
+    </p>
+
+    <div class="cart-layout">
+
+        <div id="cartItems"></div>
+
+        <div class="summary-card">
+
+            <h2>Order Summary</h2>
+
+            <div class="coupon-box">
+                <input
+                    id="couponInput"
+                    placeholder="Coupon code"
+                >
+
+                <button
+                    class="btn btn-primary"
+                    onclick="applyCoupon()">
+                    Apply
+                </button>
+            </div>
+
+            <p id="couponMessage"
+               style="font-size:13px;color:#38a169;">
+            </p>
+
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <strong>₹<span id="subtotal">0</span></strong>
+            </div>
+
+            <div class="summary-row">
+                <span>Delivery</span>
+                <strong>₹<span id="delivery">40</span></strong>
+            </div>
+
+            <div class="summary-row">
+                <span>Discount</span>
+                <strong>− ₹<span id="discount">0</span></strong>
+            </div>
+
+            <div class="summary-row summary-total">
+                <span>Total</span>
+                <span>₹<span id="total">0</span></span>
+            </div>
+
+            <button
+                id="checkoutBtn"
+                class="btn btn-primary"
+                style="width:100%;margin-top:20px;"
+                onclick="goCheckout()">
+                Proceed to Checkout
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+</main>
+
+<script src="js/app.js"></script>
+<script src="js/cart.js"></script>
+
+</body>
+</html>
